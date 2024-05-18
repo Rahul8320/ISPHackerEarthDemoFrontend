@@ -1,10 +1,17 @@
-import { Button } from "./Components/ui/button";
+import { Header } from "./Components/Custom/Header";
+import HomePage from "./Pages/HomePage";
 
 function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Welcome to Hacker Earth</h1>
-      <Button>Button</Button>
+      {/* Header */}
+      <Header />
+      {/* Main */}
+      <main>
+        <HomePage />
+      </main>
+      {/* Footer */}
+      <footer>Made with 💖 by Rahul Dey</footer>
     </>
   );
 }
