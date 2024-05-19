@@ -1,6 +1,11 @@
+import { useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { IspState } from "@/store/ispSlice";
 
 export const Header = () => {
+  const ispList = useSelector((state: IspState) => state.isps);
+  const totalApiHits = useSelector((state: IspState) => state.apiHits);
+
   return (
     <div className="max-w-7xl mx-auto bg-gray-400 h-16 my-2 rounded-lg px-5 flex items-center">
       {/* Heading Section */}
@@ -16,11 +21,15 @@ export const Header = () => {
           ➖ searching ISP made easy!
         </h3>
       </div>
-      
+
       {/* Count Section */}
       <div className="w-2/5 flex items-center">
         <div className="border-2 border-purple-950 rounded-lg bg-purple-50 p-2 w-2/3 mx-auto text-center">
-          <h3 className="text-lg"><strong>Total ISP</strong>: 09 <span className="mx-5 text-green-800">|</span> <strong>API Hits</strong>: 748</h3>
+          <h3 className="text-lg">
+            <strong>Total ISP</strong>: {ispList.length}
+            <span className="mx-5 text-green-800">|</span>{" "}
+            <strong>API Hits</strong>: {totalApiHits}
+          </h3>
         </div>
         <div className="mx-10">
           <span className="text-xl">🌝</span>

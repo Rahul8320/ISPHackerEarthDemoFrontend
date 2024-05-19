@@ -1,8 +1,10 @@
-export type IspModel = {
-  id: string;
-  name: string;
-  price: number;
-  email: string;
-  rating: number;
-  logo: string;
-};
+export class IspModel {
+  constructor(
+    public id: string,
+    public name: string,
+    public price: number,
+    public email: string,
+    public rating: number,
+    public logo: string
+  ) {}
+}

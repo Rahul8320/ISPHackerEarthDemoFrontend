@@ -1,7 +1,7 @@
 import { ISP } from "@/Models/isp";
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IspState {
+export interface IspState {
   isps: ISP[];
   apiHits: number;
 }
