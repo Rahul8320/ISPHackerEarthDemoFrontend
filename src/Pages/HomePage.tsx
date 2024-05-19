@@ -1,26 +1,39 @@
+import { useEffect, useState } from "react";
 import { columns } from "@/Components/ui/columns";
 import { DataTable } from "@/Components/ui/data-table";
-import { Payment } from "@/lib/type";
-
-export const payments: Payment[] = [
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "489e1d42",
-    amount: 125,
-    status: "processing",
-    email: "example@gmail.com",
-  },
-];
+import { IspModel } from "@/Models/ispModel";
+import ispService from "@/Services/isp.service";
+import { useToast } from "@/Components/ui/use-toast";
 
 const HomePage = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isps, setIsps] = useState<IspModel[]>([]);
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    ispService
+      .getAllIsp()
+      .then((data) => {
+        setIsps(data);
+        setLoading(false);
+      })
+      .catch((err: Error) => {
+        toast({
+          title: "Failed",
+          description: err.message,
+        });
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div className="max-w-7xl mx-auto"></div>;
+  }
+
   return (
-    <div>
-      <DataTable columns={columns} data={payments} />
+    <div className="max-w-7xl mx-auto">
+      <DataTable columns={columns} data={isps} />
     </div>
   );
 };

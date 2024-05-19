@@ -1,4 +1,5 @@
 import { Header } from "./Components/Custom/Header";
+import { Toaster } from "./Components/ui/toaster";
 import HomePage from "./Pages/HomePage";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       </main>
       {/* Footer */}
       <footer>Made with 💖 by Rahul Dey</footer>
+      <Toaster />
     </>
   );
 }

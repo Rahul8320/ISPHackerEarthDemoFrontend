@@ -1,6 +1,6 @@
-import { Payment } from "@/lib/type";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { IspModel } from "@/Models/ispModel";
 
 import { Button } from "./button";
 import {
@@ -12,10 +12,24 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<IspModel>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "logo",
+    header: "Logo",
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "email",
@@ -32,26 +46,24 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "price",
     header: ({ column }) => {
       return (
-        <div className="text-right">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Amount
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const price = parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "USD",
-      }).format(amount);
+        currency: "INR",
+      }).format(price);
 
       return <div className="text-right font-medium">{formatted}</div>;
     },
@@ -59,7 +71,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const isp = row.original;
 
       return (
         <DropdownMenu>
@@ -72,13 +84,13 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(isp.id)}
             >
-              Copy payment ID
+              Copy ISP ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem> View details</DropdownMenuItem>
+            <DropdownMenuItem> Share ISP </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
