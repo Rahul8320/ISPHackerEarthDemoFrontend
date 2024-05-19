@@ -24,7 +24,8 @@ export class ISP {
       this.lowest_Price,
       this.email,
       this.rating,
-      this.image
+      this.image,
+      this.url
     );
   }
 

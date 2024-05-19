@@ -23,7 +23,7 @@ const HomePage = () => {
       .then((data: ISP[]) => {
         const ispModels = ISP.toModelList(data);
         setIsps(ispModels);
-        dispatch(updateIsps(data));
+        dispatch(updateIsps(data.length));
         dispatch(updateApiHits());
         setLoading(false);
       })

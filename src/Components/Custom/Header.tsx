@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { IspState } from "@/store/ispSlice";
 
 export const Header = () => {
-  const ispList = useSelector((state: IspState) => state.isps);
+  const totalIspCount = useSelector((state: IspState) => state.ispsCount);
   const totalApiHits = useSelector((state: IspState) => state.apiHits);
 
   return (
@@ -26,7 +26,7 @@ export const Header = () => {
       <div className="w-2/5 flex items-center">
         <div className="border-2 border-purple-950 rounded-lg bg-purple-50 p-2 w-2/3 mx-auto text-center">
           <h3 className="text-lg">
-            <strong>Total ISP</strong>: {ispList.length}
+            <strong>Total ISP</strong>: {totalIspCount}
             <span className="mx-5 text-green-800">|</span>{" "}
             <strong>API Hits</strong>: {totalApiHits}
           </h3>

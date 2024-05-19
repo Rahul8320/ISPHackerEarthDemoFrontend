@@ -1,18 +1,17 @@
-import { ISP } from "@/Models/isp";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface IspState {
-  isps: ISP[];
+  ispsCount: number;
   apiHits: number;
 }
 
 interface UpdateStateActionPayload {
-  payload: ISP[];
+  payload: number;
   type: string;
 }
 
 const initialState: IspState = {
-  isps: [],
+  ispsCount: 0,
   apiHits: 0,
 };
 
@@ -21,7 +20,7 @@ export const ispSlice = createSlice({
   initialState,
   reducers: {
     updateIsps: (state, action: UpdateStateActionPayload) => {
-      state.isps = action.payload;
+      state.ispsCount = action.payload;
     },
     updateApiHits: (state) => {
       state.apiHits = state.apiHits + 1;

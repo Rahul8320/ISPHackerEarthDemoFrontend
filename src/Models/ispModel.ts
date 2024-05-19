@@ -5,6 +5,7 @@ export class IspModel {
     public price: number,
     public email: string,
     public rating: number,
-    public logo: string
+    public logo: string,
+    public url: string
   ) {}
 }

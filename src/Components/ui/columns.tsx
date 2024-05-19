@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { IspModel } from "@/Models/ispModel";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import { Button } from "./button";
 import {
   DropdownMenu,
@@ -15,7 +15,13 @@ import {
 export const columns: ColumnDef<IspModel>[] = [
   {
     accessorKey: "logo",
-    header: "Logo",
+    header: () => <div className="mx-12">Logo</div>,
+    cell: ({ row }) => (
+      <Avatar className="mx-10">
+        <AvatarImage src={row.getValue("logo")} />
+        <AvatarFallback>Logo</AvatarFallback>
+      </Avatar>
+    ),
   },
   {
     accessorKey: "name",
@@ -29,6 +35,9 @@ export const columns: ColumnDef<IspModel>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <div className="mx-7">{row.getValue("name")}</div>;
     },
   },
   {
@@ -65,7 +74,7 @@ export const columns: ColumnDef<IspModel>[] = [
         currency: "INR",
       }).format(price);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="mx-3 font-medium">{formatted}</div>;
     },
   },
   {
@@ -74,26 +83,47 @@ export const columns: ColumnDef<IspModel>[] = [
       const isp = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(isp.id)}
-            >
-              Copy ISP ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem> View details</DropdownMenuItem>
-            <DropdownMenuItem> Share ISP </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="text-right">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  window.open(isp.url, "_blank", "noopener,noreferrer")
+                }
+              >
+                Open url
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>View details</DropdownMenuItem>
+              <DropdownMenuItem onClick={async () => await handleShare(isp)}>
+                Share
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       );
     },
   },
 ];
+
+const handleShare = async (isp: IspModel) => {
+  const shareData = {
+    title: `Check out this ISP: ${isp.name}`,
+    text: `ISP Name: ${isp.name}\nRating: ${isp.rating} Mbps\n`,
+    url: window.location.href,
+  };
+
+  try {
+    await navigator.share(shareData);
+  } catch (err) {
+    console.error("Error sharing:", err);
+    alert("Web Share API is not supported in your browser.");
+  }
+};
