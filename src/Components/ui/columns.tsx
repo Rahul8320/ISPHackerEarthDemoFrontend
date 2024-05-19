@@ -11,6 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
+import { Dialog, DialogTrigger } from "./dialog";
+import DetailsPage from "@/Pages/DetailsPage";
 
 export const columns: ColumnDef<IspModel>[] = [
   {
@@ -78,35 +80,60 @@ export const columns: ColumnDef<IspModel>[] = [
     },
   },
   {
+    accessorKey: "rating",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Rating
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const rating = parseFloat(row.getValue("rating"));
+      const formatted = rating.toFixed(2);
+
+      return <div className="mx-3 font-medium">{formatted}</div>;
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const isp = row.original;
 
       return (
         <div className="text-right">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() =>
-                  window.open(isp.url, "_blank", "noopener,noreferrer")
-                }
-              >
-                Open url
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>View details</DropdownMenuItem>
-              <DropdownMenuItem onClick={async () => await handleShare(isp)}>
-                Share
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Dialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem
+                  onClick={() =>
+                    window.open(isp.url, "_blank", "noopener,noreferrer")
+                  }
+                >
+                  Open url
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DialogTrigger asChild>
+                  <DropdownMenuItem>View details</DropdownMenuItem>
+                </DialogTrigger>
+                <DropdownMenuItem onClick={async () => await handleShare(isp)}>
+                  Share
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DetailsPage id={isp.id} />
+          </Dialog>
         </div>
       );
     },

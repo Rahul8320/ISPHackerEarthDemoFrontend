@@ -30,6 +30,17 @@ class IspService {
       throw new Error("Failed to fatch isp data!");
     }
   }
+
+  // get isp details
+  async getIspDetails(id: string): Promise<ISP> {
+    try {
+      const result = await axios.get(`${this.apiUrl}/${id}`);
+      return result.data;
+    } catch (error) {
+      console.error(`IspService :: getIspDetails :: Error: ${error}`);
+      throw new Error("Failed to fatch isp data!");
+    }
+  }
 }
 
 const ispService = new IspService();
