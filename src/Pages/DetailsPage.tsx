@@ -62,15 +62,52 @@ const DetailsPage = ({ id }: detailsPageProps) => {
   }
 
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="sm:max-w-[425px] md:max-w-2xl">
       <DialogHeader>
-        <DialogTitle>ISP Details</DialogTitle>
+        <DialogTitle>
+          <h2 className="text-2xl mx-5 text-slate-700">ISP Details</h2>
+        </DialogTitle>
       </DialogHeader>
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <p>{id}</p>
+      <div>
+        <div className="flex items-center p-2">
+          <div className="w-1/3 mx-10 bg-green-50 rounded-xl py-1">
+            <img src={ispDetails?.image} alt={ispDetails?.name} />
+          </div>
+          <div className="w-2/3 bg-gray-200 rounded-lg border-2 border-gray-500 shadow-md">
+            <div className="bg-gray-500 py-1 rounded-md">
+              <h1 className="text-3xl font-semibold text-white text-center">
+                {ispDetails?.name}
+              </h1>
+            </div>
+            <div className="px-5 py-2">
+              <p className="text-lg font-medium my-2">
+                <span className="mx-5">
+                  <i className="fa fa-wifi"></i>
+                </span>
+                Max Speed: {ispDetails?.max_Speed}
+              </p>
+              <p className="text-lg font-medium my-2">
+                <span className="mx-5">
+                  <i className="fa fa-phone"></i>
+                </span>
+                {ispDetails?.contact_No}
+              </p>
+              <p className="text-lg font-medium my-2">
+                <span className="mx-5">
+                  <i className="fa fa-inbox"></i>
+                </span>
+                {ispDetails?.email}
+              </p>
+              <p className="text-lg font-medium my-2">
+                <span className="mx-5">
+                  <i className="fa fa-money"></i>
+                </span>
+                Min. Plan: {ispDetails?.lowest_Price} /-
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-4 items-center gap-4"></div>
+        <div></div>
       </div>
       <DialogFooter>
         <Button type="submit">Save changes</Button>

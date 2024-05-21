@@ -31,10 +31,6 @@ export const Header = () => {
             <strong>API Hits</strong>: {totalApiHits}
           </h3>
         </div>
-        <div className="mx-10">
-          <span className="text-xl">🌝</span>
-          <span className="text-xl">🌚</span>
-        </div>
       </div>
     </div>
   );
